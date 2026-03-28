@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.peak-up.net/sitemap.xml
+
+# Disallow admin/private paths (if any)
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+Disallow: /cgi-bin/

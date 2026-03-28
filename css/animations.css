@@ -1,0 +1,153 @@
+/* ============================================================
+   Peak Up - animations.css
+   Keyframes & animation utilities
+   ============================================================ */
+
+/* Marquee (language scroll) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Floating particles */
+@keyframes floatParticle {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: .4; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* WhatsApp pulse ring */
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: .7; }
+  70%  { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Counter roll */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Glow pulse for globe */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(122,90,248,.3); }
+  50%       { box-shadow: 0 0 80px rgba(122,90,248,.55), 0 0 120px rgba(239,162,34,.15); }
+}
+
+/* Hero badge float */
+@keyframes badgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+/* Gradient text shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Stagger fade-in-up (used by JS) */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide from left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Slide from right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* 3D card tilt helper class */
+.card-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Gradient animated background */
+.gradient-animated {
+  background: linear-gradient(270deg, #7A5AF8, #EFA222, #5D3FD3, #7A5AF8);
+  background-size: 300% 300%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Typing cursor */
+@keyframes blink {
+  0%, 100% { border-color: transparent; }
+  50%       { border-color: var(--accent); }
+}
+
+/* Page loader */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  background: #0F0B24;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .5s, visibility .5s;
+}
+.page-loader.hidden { opacity: 0; visibility: hidden; }
+.loader-ring {
+  width: 50px; height: 50px;
+  border: 3px solid rgba(122,90,248,.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hero stat cards */
+.hero-stat-card {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  backdrop-filter: blur(8px);
+  animation: fadeInUp .6s ease both;
+}
+.hero-stat-card:nth-child(2) { animation-delay: .15s; }
+.hero-stat-card:nth-child(3) { animation-delay: .3s; }
+
+/* Blob background shapes */
+.blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: blobMorph 8s ease-in-out infinite;
+  will-change: border-radius;
+}
+@keyframes blobMorph {
+  0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%  { border-radius: 50% 60% 30% 60% / 30% 70% 60% 40%; }
+  75%  { border-radius: 40% 60% 50% 50% / 60% 30% 70% 40%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
