@@ -399,18 +399,18 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
 
 /* Languages Section */
 .languages-section {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #F0EEFF 50%, #ffffff 100%);
   padding: 4rem 0;
   overflow: hidden;
 }
-.languages-header { text-align: center; color: #fff; margin-bottom: 2.5rem; }
-.languages-header .section-label { color: #C4B5FD; background: rgba(255,255,255,.15); }
-.languages-header h2 { color: #fff; }
+.languages-header { text-align: center; margin-bottom: 2.5rem; }
+.languages-header .section-label { color: var(--primary); background: rgba(122,90,248,.08); border: 1px solid rgba(122,90,248,.2); }
+.languages-header h2 { color: #1E3A8A; }
 .languages-header h2 em {
   font-style: normal;
   color: var(--accent);
 }
-.languages-header p { color: rgba(255,255,255,.75); max-width: 520px; margin: 1rem auto 0; }
+.languages-header p { color: var(--text-body); max-width: 520px; margin: 1rem auto 0; }
 .lang-marquee-wrapper { overflow: hidden; }
 .lang-marquee {
   display: flex;
@@ -423,15 +423,15 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   display: flex;
   align-items: center;
   gap: .75rem;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
+  background: #fff;
+  border: 1px solid rgba(122,90,248,.2);
   border-radius: var(--radius-full);
   padding: .6rem 1.2rem;
   white-space: nowrap;
-  color: #fff;
+  color: var(--text-body);
   font-weight: 500;
   font-size: .92rem;
-  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(122,90,248,.08);
 }
 .lang-item img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
 
