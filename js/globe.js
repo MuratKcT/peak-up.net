@@ -1,6 +1,6 @@
 /* ============================================================
    Peak Up – globe.js
-   Three.js 3D rotating globe with export route arcs
+   Three.js 3D realistic Earth globe with export route arcs
    ============================================================ */
 
 (function () {
@@ -20,49 +20,73 @@
   camera.position.set(0, 0, 2.8);
 
   // --- Lighting ---
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  const ambientLight = new THREE.AmbientLight(0xc0d8ff, 0.6);
   scene.add(ambientLight);
 
-  const dirLight = new THREE.DirectionalLight(0x7A5AF8, 1.2);
-  dirLight.position.set(5, 3, 5);
-  scene.add(dirLight);
+  // Sun-like directional light
+  const sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  sunLight.position.set(5, 3, 5);
+  scene.add(sunLight);
 
-  const backLight = new THREE.DirectionalLight(0xEFA222, 0.4);
-  backLight.position.set(-5, -2, -3);
-  scene.add(backLight);
+  // Soft fill light from opposite side
+  const fillLight = new THREE.DirectionalLight(0x8899bb, 0.2);
+  fillLight.position.set(-5, -2, -3);
+  scene.add(fillLight);
+
+  // --- Texture Loader ---
+  const loader = new THREE.TextureLoader();
+
+  const earthTexURL    = 'https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_atmos_2048.jpg';
+  const earthBumpURL   = 'https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_normal_2048.jpg';
+  const earthSpecURL   = 'https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_specular_2048.jpg';
+  const earthCloudsURL = 'https://raw.githubusercontent.com/mrdoob/three.js/r128/examples/textures/planets/earth_clouds_1024.png';
 
   // --- Globe ---
   const globeGeo = new THREE.SphereGeometry(1, 64, 64);
 
-  // Globe base material (dark, slightly reflective)
   const globeMat = new THREE.MeshPhongMaterial({
-    color: 0x0d0a24,
-    emissive: 0x1a0f4a,
-    emissiveIntensity: 0.3,
-    shininess: 40,
-    transparent: true,
-    opacity: 0.95,
+    shininess: 25,
   });
+
+  loader.load(earthTexURL, function (tex) {
+    globeMat.map = tex;
+    globeMat.needsUpdate = true;
+  });
+  loader.load(earthBumpURL, function (tex) {
+    globeMat.bumpMap = tex;
+    globeMat.bumpScale = 0.05;
+    globeMat.needsUpdate = true;
+  });
+  loader.load(earthSpecURL, function (tex) {
+    globeMat.specularMap = tex;
+    globeMat.specular = new THREE.Color(0x336699);
+    globeMat.needsUpdate = true;
+  });
+
   const globe = new THREE.Mesh(globeGeo, globeMat);
   scene.add(globe);
 
-  // --- Wireframe Overlay ---
-  const wireGeo = new THREE.SphereGeometry(1.002, 24, 24);
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0x7A5AF8,
-    wireframe: true,
+  // --- Cloud Layer ---
+  const cloudGeo = new THREE.SphereGeometry(1.015, 64, 64);
+  const cloudMat = new THREE.MeshPhongMaterial({
     transparent: true,
-    opacity: 0.08,
+    opacity: 0.4,
+    depthWrite: false,
   });
-  const wire = new THREE.Mesh(wireGeo, wireMat);
-  scene.add(wire);
+  loader.load(earthCloudsURL, function (tex) {
+    cloudMat.map = tex;
+    cloudMat.alphaMap = tex;
+    cloudMat.needsUpdate = true;
+  });
+  const clouds = new THREE.Mesh(cloudGeo, cloudMat);
+  scene.add(clouds);
 
   // --- Atmosphere Glow ---
-  const atmGeo = new THREE.SphereGeometry(1.12, 32, 32);
+  const atmGeo = new THREE.SphereGeometry(1.08, 32, 32);
   const atmMat = new THREE.MeshBasicMaterial({
-    color: 0x7A5AF8,
+    color: 0x4488ff,
     transparent: true,
-    opacity: 0.06,
+    opacity: 0.07,
     side: THREE.BackSide,
   });
   scene.add(new THREE.Mesh(atmGeo, atmMat));
@@ -104,9 +128,9 @@
 
   const dotGeo = new THREE.CircleGeometry(0.012, 8);
   cities.forEach(city => {
-    const pos  = latLonToVec3(city.lat, city.lon, 1.01);
-    const mat  = new THREE.MeshBasicMaterial({ color: 0xEFA222, transparent: true, opacity: .9 });
-    const dot  = new THREE.Mesh(dotGeo, mat);
+    const pos = latLonToVec3(city.lat, city.lon, 1.02);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xEFA222, transparent: true, opacity: .9 });
+    const dot = new THREE.Mesh(dotGeo, mat);
     dot.position.copy(pos);
     dot.lookAt(pos.clone().multiplyScalar(2));
     scene.add(dot);
@@ -115,8 +139,7 @@
   // --- Route Arcs ---
   function createArc(p1, p2, color, opacity) {
     const mid = p1.clone().add(p2).multiplyScalar(0.5);
-    mid.normalize().multiplyScalar(1.4); // lift arc above surface
-
+    mid.normalize().multiplyScalar(1.4);
     const curve = new THREE.QuadraticBezierCurve3(p1, mid, p2);
     const pts   = curve.getPoints(60);
     const geo   = new THREE.BufferGeometry().setFromPoints(pts);
@@ -124,23 +147,22 @@
     return new THREE.Line(geo, mat);
   }
 
-  // Istanbul as hub + routes
-  const hub   = latLonToVec3(41.0, 28.9, 1.01);
+  const hub = latLonToVec3(41.0, 28.9, 1.02);
   const routes = [
-    { city: cities[1],  color: 0x7A5AF8, op: .5 }, // London
-    { city: cities[2],  color: 0xEFA222, op: .4 }, // Paris
-    { city: cities[3],  color: 0x7A5AF8, op: .4 }, // Berlin
-    { city: cities[4],  color: 0xEFA222, op: .35}, // New York
-    { city: cities[6],  color: 0x7A5AF8, op: .4 }, // Tokyo
-    { city: cities[7],  color: 0xEFA222, op: .4 }, // Shanghai
-    { city: cities[10], color: 0x7A5AF8, op: .5 }, // Dubai
-    { city: cities[11], color: 0xEFA222, op: .4 }, // Riyadh
-    { city: cities[12], color: 0x7A5AF8, op: .35}, // Cairo
-    { city: cities[17], color: 0xEFA222, op: .35}, // Delhi
+    { city: cities[1],  color: 0xffffff, op: .45 }, // London
+    { city: cities[2],  color: 0xEFA222, op: .4  }, // Paris
+    { city: cities[3],  color: 0xffffff, op: .4  }, // Berlin
+    { city: cities[4],  color: 0xEFA222, op: .35 }, // New York
+    { city: cities[6],  color: 0xffffff, op: .4  }, // Tokyo
+    { city: cities[7],  color: 0xEFA222, op: .4  }, // Shanghai
+    { city: cities[10], color: 0xffffff, op: .45 }, // Dubai
+    { city: cities[11], color: 0xEFA222, op: .4  }, // Riyadh
+    { city: cities[12], color: 0xffffff, op: .35 }, // Cairo
+    { city: cities[17], color: 0xEFA222, op: .35 }, // Delhi
   ];
 
   routes.forEach(r => {
-    const arc = createArc(hub, latLonToVec3(r.city.lat, r.city.lon, 1.01), r.color, r.op);
+    const arc = createArc(hub, latLonToVec3(r.city.lat, r.city.lon, 1.02), r.color, r.op);
     scene.add(arc);
   });
 
@@ -148,7 +170,7 @@
   const starsGeo = new THREE.BufferGeometry();
   const starPositions = [];
   for (let i = 0; i < 1200; i++) {
-    const r = 8 + Math.random() * 4;
+    const r     = 8 + Math.random() * 4;
     const theta = Math.random() * Math.PI * 2;
     const phi   = Math.acos(2 * Math.random() - 1);
     starPositions.push(
@@ -158,14 +180,12 @@
     );
   }
   starsGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
-  const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.025, transparent: true, opacity: .55 });
+  const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.025, transparent: true, opacity: .5 });
   scene.add(new THREE.Points(starsGeo, starsMat));
 
   // --- Mouse Parallax ---
-  let targetRotY = 0;
-  let targetRotX = 0;
-  let currentRotY = 0;
-  let currentRotX = 0;
+  let targetRotY = 0, targetRotX = 0;
+  let currentRotY = 0, currentRotX = 0;
 
   document.addEventListener('mousemove', (e) => {
     const cx = window.innerWidth  / 2;
@@ -186,26 +206,16 @@
   onResize();
 
   // --- Animate ---
-  let frame = 0;
   function animate() {
     requestAnimationFrame(animate);
-    frame += 0.003;
 
-    // Auto-rotate
-    globe.rotation.y += 0.002;
-    wire.rotation.y  += 0.001;
+    globe.rotation.y  += 0.002;
+    clouds.rotation.y += 0.0015;
 
-    // Parallax lerp
     currentRotY += (targetRotY - currentRotY) * 0.05;
     currentRotX += (targetRotX - currentRotX) * 0.05;
     scene.rotation.y = currentRotY;
     scene.rotation.x = currentRotX;
-
-    // Pulse dot brightness
-    cities.forEach((_, i) => {
-      const dot = scene.children.find(c => c.isMesh && c.geometry.type === 'CircleGeometry');
-      // no-op: dots stay visible
-    });
 
     renderer.render(scene, camera);
   }

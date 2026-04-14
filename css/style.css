@@ -153,21 +153,18 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   top: 0; left: 0; right: 0;
   height: var(--header-h);
   z-index: 1000;
-  transition: background var(--transition), box-shadow var(--transition), height var(--transition);
-}
-.site-header.transparent {
-  background: transparent;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+  transition: box-shadow var(--transition), height var(--transition);
 }
 .site-header.scrolled {
-  background: rgba(255,255,255,.95);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(0,0,0,.08);
+  box-shadow: 0 2px 24px rgba(0,0,0,.12);
   height: 68px;
 }
-.site-header.scrolled .nav-logo-white { display: none; }
-.site-header.scrolled .nav-logo-dark  { display: block; }
-.site-header:not(.scrolled) .nav-logo-white { display: block; }
-.site-header:not(.scrolled) .nav-logo-dark  { display: none; }
+.nav-logo-white { display: none; }
+.nav-logo-dark  { display: block; }
 
 .header-inner {
   display: flex;
@@ -181,7 +178,7 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
 .nav-menu a {
   font-size: .92rem;
   font-weight: 500;
-  color: rgba(255,255,255,.88);
+  color: var(--text-dark);
   transition: color var(--transition);
   position: relative;
 }
@@ -194,10 +191,8 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   border-radius: 2px;
   transition: width var(--transition);
 }
-.nav-menu a:hover { color: #fff; }
+.nav-menu a:hover { color: var(--primary); }
 .nav-menu a:hover::after { width: 100%; }
-.site-header.scrolled .nav-menu a { color: var(--text-dark); }
-.site-header.scrolled .nav-menu a:hover { color: var(--primary); }
 .nav-actions { display: flex; align-items: center; gap: 1rem; }
 .hamburger {
   display: none;
@@ -209,11 +204,10 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
 .hamburger span {
   display: block;
   height: 2px;
-  background: #fff;
+  background: var(--text-dark);
   border-radius: 2px;
   transition: var(--transition);
 }
-.site-header.scrolled .hamburger span { background: var(--text-dark); }
 .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }

@@ -44,10 +44,8 @@ const header = $('#siteHeader');
 function updateHeader() {
   if (!header) return;
   if (window.scrollY > 60) {
-    header.classList.remove('transparent');
     header.classList.add('scrolled');
   } else {
-    header.classList.add('transparent');
     header.classList.remove('scrolled');
   }
 }
