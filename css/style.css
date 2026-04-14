@@ -153,11 +153,13 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   top: 0; left: 0; right: 0;
   height: var(--header-h);
   z-index: 1000;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #ffffff;
   box-shadow: 0 2px 20px rgba(0,0,0,.06);
   transition: box-shadow var(--transition), height var(--transition);
+}
+.site-header .container {
+  max-width: 100%;
+  padding: 0 2.5rem;
 }
 .site-header.scrolled {
   box-shadow: 0 2px 24px rgba(0,0,0,.12);
@@ -178,7 +180,7 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
 .nav-menu a {
   font-size: .92rem;
   font-weight: 500;
-  color: var(--text-dark);
+  color: #1E3A8A;
   transition: color var(--transition);
   position: relative;
 }
@@ -204,7 +206,7 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
 .hamburger span {
   display: block;
   height: 2px;
-  background: var(--text-dark);
+  background: #1E3A8A;
   border-radius: 2px;
   transition: var(--transition);
 }
