@@ -513,7 +513,7 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
 
 /* ---------- 11. CTA Banner ---------- */
 .cta-banner {
-  background: linear-gradient(135deg, #0F0B24 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #F0EEFF 50%, #ffffff 100%);
   padding: 5rem 0;
   position: relative;
   overflow: hidden;
@@ -524,7 +524,7 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   right: -10%; top: -30%;
   width: 50%;
   height: 160%;
-  background: radial-gradient(ellipse, rgba(239,162,34,.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(122,90,248,.07) 0%, transparent 70%);
 }
 .cta-banner-inner {
   display: grid;
@@ -532,9 +532,9 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   gap: 4rem;
   align-items: center;
 }
-.cta-banner-text .section-label { background: rgba(255,255,255,.12); color: #C4B5FD; }
-.cta-banner-text h2 { color: #fff; margin-bottom: 1rem; }
-.cta-banner-text p { color: rgba(255,255,255,.72); margin-bottom: 2rem; }
+.cta-banner-text .section-label { background: rgba(122,90,248,.08); color: var(--primary); border: 1px solid rgba(122,90,248,.2); }
+.cta-banner-text h2 { color: #1E3A8A; margin-bottom: 1rem; }
+.cta-banner-text p { color: var(--text-body); margin-bottom: 2rem; }
 .cta-features {
   display: flex;
   flex-direction: column;
@@ -544,7 +544,7 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   display: flex;
   align-items: center;
   gap: .75rem;
-  color: rgba(255,255,255,.85);
+  color: var(--text-body);
   font-size: .95rem;
 }
 .cta-feature-item::before {
@@ -553,11 +553,11 @@ p  { font-size: 1rem; line-height: 1.75; color: var(--text-body); }
   align-items: center;
   justify-content: center;
   width: 22px; height: 22px;
-  background: rgba(122,90,248,.3);
-  border: 1px solid rgba(122,90,248,.6);
+  background: rgba(122,90,248,.1);
+  border: 1px solid rgba(122,90,248,.3);
   border-radius: 50%;
   font-size: .75rem;
-  color: #C4B5FD;
+  color: var(--primary);
   flex-shrink: 0;
 }
 
