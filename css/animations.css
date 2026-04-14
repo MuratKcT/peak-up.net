@@ -32,8 +32,8 @@
 
 /* Glow pulse for globe */
 @keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 40px rgba(122,90,248,.3); }
-  50%       { box-shadow: 0 0 80px rgba(122,90,248,.55), 0 0 120px rgba(239,162,34,.15); }
+  0%, 100% { box-shadow: 0 8px 40px rgba(122,90,248,.12); }
+  50%       { box-shadow: 0 8px 60px rgba(122,90,248,.22); }
 }
 
 /* Hero badge float */

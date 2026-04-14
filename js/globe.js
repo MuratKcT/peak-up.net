@@ -102,23 +102,6 @@
     );
   }
 
-  // --- Stars Background ---
-  const starsGeo = new THREE.BufferGeometry();
-  const starPositions = [];
-  for (let i = 0; i < 1200; i++) {
-    const r     = 8 + Math.random() * 4;
-    const theta = Math.random() * Math.PI * 2;
-    const phi   = Math.acos(2 * Math.random() - 1);
-    starPositions.push(
-      r * Math.sin(phi) * Math.cos(theta),
-      r * Math.cos(phi),
-      r * Math.sin(phi) * Math.sin(theta)
-    );
-  }
-  starsGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
-  const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.025, transparent: true, opacity: .5 });
-  scene.add(new THREE.Points(starsGeo, starsMat));
-
   // --- Mouse Parallax ---
   let targetRotY = 0, targetRotX = 0;
   let currentRotY = 0, currentRotX = 0;
